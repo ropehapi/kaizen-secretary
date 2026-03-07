@@ -14,7 +14,7 @@ import (
 func RememberScoutMonthlyFees() {
 	taxpayers := map[string]string{
 		"Pedrinho": "5543936180709",
-		"":                                       "43988706262",
+		// "":                                       "43988706262",
 		"CRISLAINE FERREIRA  DE PAULA":           "5543988590192",
 		// "FAGNER JUNIOR MASSEI":                   55"",
 		"MAICON FIER":                            "5543996520477",
