@@ -18,7 +18,7 @@ func main() {
 
 	c := cron.New(cron.WithSeconds())
 
-	_, err := c.AddFunc("0 30 14 7 3 *", routines.RememberScoutMonthlyFees)
+	_, err := c.AddFunc("0 */5 * * * *", routines.RememberScoutMonthlyFees)
 	if err != nil {
 		slog.Error("falha ao registrar cron job", "error", err)
 		panic(err)
