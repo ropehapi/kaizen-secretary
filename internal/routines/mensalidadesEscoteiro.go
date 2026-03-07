@@ -3,8 +3,8 @@ package routines
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io"
+	"log/slog"
 	"math/rand"
 	"net/http"
 	"os"
@@ -55,8 +55,12 @@ func RememberScoutMonthlyFees() {
 
 	month := getMonthInPortuguese()
 
+	slog.Info("iniciando envio de lembretes de mensalidade escoteiro", "month", month, "total_taxpayers", len(taxpayers))
+
 	for name, phone := range taxpayers {
-		message := fmt.Sprintf("Olá, %s, passando para lembrar sobre Contribuição mensal do Grupo Escoteiro Guarani, referente ao mês de %s. Enviar comprovante no whatsApp *PIX GRUPO GUARANI*.\nObs: Essa é uma mensagem automática. Caso já tenha feito o pagamento, por favor desconsidere.", name, month)
+		log := slog.With("name", name, "phone", phone)
+
+		message := "Olá, " + name + ", passando para lembrar sobre Contribuição mensal do Grupo Escoteiro Guarani, referente ao mês de " + month + ". Enviar comprovante no whatsApp *PIX GRUPO GUARANI*.\nObs: Essa é uma mensagem automática. Caso já tenha feito o pagamento, por favor desconsidere."
 
 		payload := map[string]interface{}{
 			"number":  phone,
@@ -65,9 +69,10 @@ func RememberScoutMonthlyFees() {
 
 		body, _ := json.Marshal(payload)
 
-		req, err := http.NewRequest("POST", os.Getenv("MESSAGING_OFFICER_HOST")+":"+os.Getenv("MESSAGING_OFFICER_PORT")+"/api/send-message", bytes.NewBuffer(body))
+		url := os.Getenv("MESSAGING_OFFICER_HOST") + ":" + os.Getenv("MESSAGING_OFFICER_PORT") + "/api/send-message"
+		req, err := http.NewRequest("POST", url, bytes.NewBuffer(body))
 		if err != nil {
-			fmt.Println("Erro:", err)
+			log.Error("erro ao criar requisição", "error", err)
 			return
 		}
 
@@ -78,25 +83,19 @@ func RememberScoutMonthlyFees() {
 		client := &http.Client{}
 		resp, err := client.Do(req)
 		if err != nil {
-			fmt.Println("Erro ao enviar requisição:", err)
+			log.Error("erro ao enviar requisição", "error", err)
 			return
 		}
 		defer resp.Body.Close()
 
 		respBody, _ := io.ReadAll(resp.Body)
 
-		var prettyJSON interface{} // pode ser []interface{} ou map[string]interface{}
-		if err := json.Unmarshal(respBody, &prettyJSON); err == nil {
-			formatted, _ := json.MarshalIndent(prettyJSON, "", "  ")
-			fmt.Println("HTTP Status:", resp.Status)
-			fmt.Println(string(formatted))
-		} else {
-			fmt.Println("HTTP Status:", resp.Status)
-			fmt.Println(string(respBody))
-		}
+		log.Info("resposta recebida", "http_status", resp.Status, "response_body", string(respBody))
 
 		time.Sleep(time.Duration(rand.Intn(10)+1) * time.Second)
 	}
+
+	slog.Info("envio de lembretes de mensalidade escoteiro finalizado")
 }
 
 func getMonthInPortuguese() string {
