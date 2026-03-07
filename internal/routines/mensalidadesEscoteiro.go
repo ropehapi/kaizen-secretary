@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"math/rand"
 	"net/http"
 	"os"
 	"time"
@@ -12,48 +13,45 @@ import (
 
 func RememberScoutMonthlyFees() {
 	taxpayers := map[string]string{
-		"":                                       "",
-		"CRISLAINE FERREIRA  DE PAULA":           "43996244613",
-		"FAGNER JUNIOR MASSEI":                   "43999556660",
-		"MAICON FIER":                            "",
-		"CAROLINA DE OLIVEIRA TENORIO":           "43991514942",
-		"ROSANGELA CRISTINA ALVES HAAGSMA":       "",
-		"EGLAIA DE CARVALHO CHERON":              "",
-		"ALINE FERREIRA MARCHI":                  "43988706262",
-		"DELAIR APARECIDA ALVES DOS SANTOS":      "",
-		"DIRCE ELY MAIHACK":                      "43996888151",
-		"Maria Gloria dos Santos Miyasaki":       "",
-		"RUBIA SIMONI PRIMO":                     "",
-		"MARIA DE LOURDES ASSIZ VIEIRA":          "",
-		"RICARDO FORSTER":                        "",
-		"Rosiane Andréia Ribeiro Teixeira":       "",
-		"EDGAR JOSE SCHUSTER":                    "43999571116",
-		"EVERTON HENRIQUE FORTI":                 "43999010525",
-		"JAIR DONIZETE STEFANI":                  "4399720306",
-		"JAQUELINE AMADEU BORASCHI":              "43996403151",
-		"Gabriella Pitoli Schauff":               "",
-		"NATALIA CRISTINA DO CARMO":              "",
-		"Lucineia Antonia de Oliveira Pereira":   "",
-		"ELEUTERIO DA SILVA FERNANDES":           "",
-		"Gisele Mazer Hofmam":                    "",
-		"ALESSANDRO PEREIRA JAQUES":              "",
-		"MARCIA TEIXEIRA MARCOS":                 "",
-		"LEILA CRISTINA RODRIGUES":               "43991130240",
-		"Anderson Melo da Silva":                 "43996661413",
-		"Josiane Salmazo Devara":                 "",
-		"Eduardo Augusto Matiuzzi":               "",
-		"LUCI ANE FERNANDES GARCIA DA SILVA":     "43991181378",
-		"CLAUDIA MOREIRA MARQUEZINI":             "43999518077",
-		"DAIANE GONÇALVES DE SOUZA VALÉRIO":      "43996370162",
-		"VANIA MARIA FERREIRA":                   "",
-		"ROSELI A. MONTEIRO YOSHIMURA":           "",
-		"JULIANA BARCELLOS DE OLIVEIRA":          "43999282866",
-		"CARLA BEAZI":                            "",
-		"CLEONI ADEMIR PEREIRA":                  "",
-		"João Fernando da Cunha":                 "",
-		"Débora Garcia Prescendo de Godoy Bueno": "",
-		"Aline Fernandes Rodrigues Nandi":        "43999296846",
-		"FABIANY LOPES":                          "",
+		// "":                                       "43988706262",
+		"CRISLAINE FERREIRA  DE PAULA":           "5543988590192",
+		// "FAGNER JUNIOR MASSEI":                   55"",
+		"MAICON FIER":                            "5543996520477",
+		"CAROLINA DE OLIVEIRA TENORIO":           "5543981514942",
+		"ROSANGELA CRISTINA ALVES HAAGSMA":       "5543996674698",
+		"EGLAIA DE CARVALHO CHERON":              "5543999772677",
+		"ALINE FERREIRA MARCHI":                  "5543988706262",
+		"DELAIR APARECIDA ALVES DOS SANTOS":      "5543991199827",
+		"DIRCE ELY MAIHACK":                      "5543988540078",
+		"Maria Gloria dos Santos Miyasaki":       "5543988323660",
+		"RUBIA SIMONI PRIMO":                     "5543998608622",
+		"MARIA DE LOURDES ASSIZ VIEIRA":          "5543991553713",
+		"RICARDO FORSTER":                        "5543999556662",
+		"Rosiane Andréia Ribeiro Teixeira":       "5543991731318",
+		"EDGAR JOSE SCHUSTER":                    "5543998458266",
+		// "EVERTON HENRIQUE FORTI":                 55"",
+		"JAQUELINE AMADEU BORASCHI":              "5543996403151",
+		"Gabriella Pitoli Schauff":               "5543991530112",
+		"NATALIA CRISTINA DO CARMO":              "5543998682678",
+		"Lucineia Antonia de Oliveira Pereira":   "5543998448075",
+		"ELEUTERIO DA SILVA FERNANDES":           "5543991181378",
+		"Gisele Mazer Hofmam":                    "5543999660219",
+		"ALESSANDRO PEREIRA JAQUES":              "5543991730168",
+		"MARCIA TEIXEIRA MARCOS":                 "5543999808467",
+		"LEILA CRISTINA RODRIGUES":               "5543991130240",
+		"Anderson Melo da Silva":                 "5543996661413",
+		"Eduardo Augusto Matiuzzi":               "5543996461302",
+		// "LUCI ANE FERNANDES GARCIA DA SILVA":     55"",
+		"CLAUDIA MOREIRA MARQUEZINI":             "5543999518077",
+		"DAIANE GONÇALVES DE SOUZA VALÉRIO":      "5543996370162",
+		"VANIA MARIA FERREIRA":                   "5543984187433",
+		"JULIANA BARCELLOS DE OLIVEIRA":          "5543999307945",
+		"CARLA BEAZI":                            "5543999714313",
+		"CLEONI ADEMIR PEREIRA":                  "5545991176628",
+		"João Fernando da Cunha":                 "5543999187335",
+		"Débora Garcia Prescendo de Godoy Bueno": "5543999158494",
+		"Aline Fernandes Rodrigues Nandi":        "5543999296846",
+		"FABIANY LOPES":                          "5561983129340",
 	}
 
 	month := getMonthInPortuguese()
@@ -98,7 +96,7 @@ func RememberScoutMonthlyFees() {
 			fmt.Println(string(respBody))
 		}
 
-		time.Sleep(10 * time.Second)
+		time.Sleep(time.Duration(rand.Intn(10)+1) * time.Second)
 	}
 }
 
