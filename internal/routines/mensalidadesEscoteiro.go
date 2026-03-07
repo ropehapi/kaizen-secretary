@@ -75,8 +75,8 @@ func RememberScoutMonthlyFees() {
 		}
 
 		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("x-api-key", "corinthians-gigante")
-		req.Header.Set("x-Session-Id", "pedro")
+		req.Header.Set("x-api-key", os.Getenv("MESSAGING_OFFICER_API_KEY"))
+		req.Header.Set("x-Session-Id", os.Getenv("MESSAGING_OFFICER_SESSION_ID"))
 
 		client := &http.Client{}
 		resp, err := client.Do(req)
