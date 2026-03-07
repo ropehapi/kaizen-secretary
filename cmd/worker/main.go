@@ -2,6 +2,7 @@ package main
 
 import (
 	"log/slog"
+	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/robfig/cron/v3"
@@ -16,9 +17,10 @@ func main() {
 		slog.Warn("arquivo .env não encontrado, usando variáveis de ambiente do sistema", "error", err)
 	}
 
-	c := cron.New(cron.WithSeconds())
+	loc, _ := time.LoadLocation("America/Sao_Paulo")
+	c := cron.New(cron.WithSeconds(), cron.WithLocation(loc))
 
-	_, err := c.AddFunc("0 50 14 7 3 *", routines.RememberScoutMonthlyFees)
+	_, err := c.AddFunc("0 05 15 7 3 *", routines.RememberScoutMonthlyFees)
 	if err != nil {
 		slog.Error("falha ao registrar cron job", "error", err)
 		panic(err)
