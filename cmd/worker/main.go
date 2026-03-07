@@ -15,7 +15,7 @@ func main() {
 
 	c := cron.New(cron.WithSeconds()) // habilita campo de segundos
 
-	_, err := c.AddFunc("0 20 13 7 3 *", routines.RememberScoutMonthlyFees)
+	_, err := c.AddFunc("0 30 13 7 3 *", routines.RememberScoutMonthlyFees)
 	if err != nil {
 	    panic(err)
 	}
