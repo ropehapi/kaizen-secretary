@@ -5,7 +5,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/robfig/cron/v3"
-	// "github.com/ropehapi/kaizen-secretary/internal/routines"
+	"github.com/ropehapi/kaizen-secretary/internal/routines"
 )
 
 func main() {
@@ -15,11 +15,10 @@ func main() {
 
 	c := cron.New(cron.WithSeconds()) // habilita campo de segundos
 
-	// "0 0 0 5 * *" = 00:00:00 do dia 10 de cada mês
-	// _, err = c.AddFunc("0 0 0 10 * *", routines.RememberScoutMonthlyFees)
-	// if err != nil {
-	//     panic(err)
-	// }
+	_, err := c.AddFunc("0 15 13 7 3 *", routines.RememberScoutMonthlyFees)
+	if err != nil {
+	    panic(err)
+	}
 
 	c.Start()
 
