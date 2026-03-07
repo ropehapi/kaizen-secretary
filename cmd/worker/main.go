@@ -20,7 +20,7 @@ func main() {
 	loc, _ := time.LoadLocation("America/Sao_Paulo")
 	c := cron.New(cron.WithSeconds(), cron.WithLocation(loc))
 
-	_, err := c.AddFunc("0 05 15 7 3 *", routines.RememberScoutMonthlyFees)
+	_, err := c.AddFunc("0 23 15 7 3 *", routines.RememberScoutMonthlyFees)
 	if err != nil {
 		slog.Error("falha ao registrar cron job", "error", err)
 		panic(err)
