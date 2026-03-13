@@ -53,6 +53,8 @@ func RememberScoutMonthlyFees() {
 		"FABIANY LOPES":                          "5561983129340",
 	}
 
+	var failed []string
+
 	month := getMonthInPortuguese()
 
 	slog.Info("iniciando envio de lembretes de mensalidade escoteiro", "month", month, "total_taxpayers", len(taxpayers))
@@ -84,7 +86,8 @@ func RememberScoutMonthlyFees() {
 		resp, err := client.Do(req)
 		if err != nil {
 			log.Error("erro ao enviar requisição", "error", err)
-			return
+			failed = append(failed, name)
+			continue
 		}
 		defer resp.Body.Close()
 
@@ -95,7 +98,11 @@ func RememberScoutMonthlyFees() {
 		time.Sleep(time.Duration(rand.Intn(10)+1) * time.Second)
 	}
 
-	slog.Info("envio de lembretes de mensalidade escoteiro finalizado")
+	if len(failed) > 0 {
+		slog.Warn("Contribuintes não notificados", "count", len(failed), "names", failed)
+	}
+
+	slog.Info("envio de lembretes finalizado", "total", len(taxpayers), "falhas", len(failed))
 }
 
 func getMonthInPortuguese() string {
