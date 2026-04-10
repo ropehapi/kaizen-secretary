@@ -20,11 +20,11 @@ func main() {
 	loc, _ := time.LoadLocation("America/Sao_Paulo")
 	c := cron.New(cron.WithSeconds(), cron.WithLocation(loc))
 
-	_, err := c.AddFunc("0 00 16 7 3 *", routines.RememberScoutMonthlyFees)
-	if err != nil {
-		slog.Error("falha ao registrar cron job", "error", err)
-		panic(err)
-	}
+	// _, err := c.AddFunc("0 00 16 7 3 *", routines.RememberScoutMonthlyFees)
+	// if err != nil {
+	// 	slog.Error("falha ao registrar cron job", "error", err)
+	// 	panic(err)
+	// }
 
 	slog.Info("kaizen-secretary iniciado, aguardando execução dos jobs...")
 
